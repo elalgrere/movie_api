@@ -74,7 +74,10 @@ let users = [
       },
   ];
 
-  //READ
+ //READ
+app.get('/', (req, res) => {
+  //res.status(400).json({"movie"})
+ })
 // Get all users
 app.get('/movies', (req, res) => {
    res.status(200).json(movies)
@@ -99,7 +102,7 @@ app.get('/movies/genre/:genreName', (req, res) => {
     if(genre) {
         res.status(200).json(genre);
     } else {
-        res.status(400).send('no such   genre'); 
+        res.status(400).send('no such genre'); 
     }
     
 })
@@ -134,6 +137,9 @@ app.delete('/users/:id/:title', (req, res) => {
 
 
 app.listen(8080,() => console.log('listen on 8080'))
+
+
+
 
 
 
