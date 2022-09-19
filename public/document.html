@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/draft.css" />
+  <title>Documentation: Arty movies</title>
+</head>
+<body>
+  <header>
+    <h1>Documentation for Arty Movies API</h1>
+    <h2>-- now with CSS! --</h2>
+  </header>
+
+  <table>
+    <thead>
+      <th>Endpoint Description</th>
+      <th>Method</th>
+      <th>URL</th>
+      <th>Body</th>
+      <th>Response</th>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Returns a JSON object of ALL movies</td>
+        <td>GET</td>
+        <td>/movies</td>
+        <td>-</td>
+        <td>JSON</td>
+      </tr>
+      <tr>
+        <td>Returns a JSON object of a single movie</td>
+        <td>GET</td>
+        <td>/movies/:title</td>
+        <td>-</td>
+        <td>JSON</td>
+      </tr>
+      <tr>
+        <td>Returns a JSON object of all movies of a certain genre</td>
+        <td>GET</td>
+        <td>/movies/genres/:genre</td>
+        <td>-</td>
+        <td>JSON</td>
+      </tr>
+      <tr>
+        <td>Returns a JSON object of a movie-director by name</td>
+        <td>GET</td>
+        <td>/directors/:name</td>
+        <td>-</td>
+        <td>JSON</td>
+      </tr>
+      <tr>
+        <td>Creates a new user, then gives acknowledgement</td>
+        <td>POST</td>
+        <td>/users</td>
+        <td>JSON</td>
+        <td>201</td>
+      </tr>
+      <tr>
+        <td>Updates the username of a user, then gives acknowledgement</td>
+        <td>PUT</td>
+        <td>/users/:id/:username</td>
+        <td>-</td>
+        <td>201</td>
+      </tr>
+      <tr>
+        <td>Adds a movie to a user's list of "favorites", then gives an acknowledgement</td>
+        <td>POST</td>
+        <td>/users/:id/:title</td>
+        <td>-</td>
+        <td>201</td>
+      </tr>
+      <tr>
+        <td>Removes a movie from a user's list of favorites, then gives an acknowledgement</td>
+        <td>DELETE</td>
+        <td>/users/:id/:title</td>
+        <td>-</td>
+        <td>201</td>
+      </tr>
+      <tr>
+        <td>Removes an existing user from the database</td>
+        <td>DELETE</td>
+        <td>/users/:id</td>
+        <td>-</td>
+        <td>201</td>
+      </tr>
+    </tbody>
+  </table>
+  
+</body>
+</html>
