@@ -12,7 +12,7 @@ let users = [
     },
     {
       name: 'Jonathan',
-      favmovie: []
+      favmovie: ['Goyas Ghost']
     },
     {
       name: 'Paul',
@@ -57,7 +57,7 @@ let users = [
     },
     
     {
-      "Title":"Goya's Ghost",
+      "Title":"Goyas Ghost",
       "Description":"Goya's Ghosts is a 2006 biographical drama film, directed by Miloš Forman (his final directorial feature before his death in 2018), and written by him and Jean-Claude Carrière. The film stars Javier Bardem, Natalie Portman and Stellan Skarsgård, and was filmed on location in Spain during late 2005. The film was written, produced, and performed in English although it is a Spanish production. Although the historical setting of the film is authentic, the story about Goya trying to defend a model is fictional, as are the characters Brother Lorenzo and the Bilbatúa family.",
   
       "Genre": {
@@ -75,13 +75,11 @@ let users = [
   ];
 
  //READ
-app.get('/', (req, res) => {
-  //res.status(400).json({"movie"})
- })
-// Get all users
+
+// Get all movies
 app.get('/movies', (req, res) => {
-   res.status(200).json(movies)
-})
+   res.status(200).json(movies);
+});
 //READ
 app.get('/movies/:title', (req, res) => {
     const { title } = req.params;
@@ -93,11 +91,11 @@ app.get('/movies/:title', (req, res) => {
         res.status(400).send('no such movie'); 
     }
     
-})
+});
 
 app.get('/movies/genre/:genreName', (req, res) => {
     const { genreName } = req.params;
-    const genre = movies.find( movie => movie.Genre.Name == genreName ).Genre;
+    const genre = movies.find( movie => movie.Genre.Name == genreName );
       
     if(genre) {
         res.status(200).json(genre);
@@ -105,38 +103,99 @@ app.get('/movies/genre/:genreName', (req, res) => {
         res.status(400).send('no such genre'); 
     }
     
-})
-app.get('/directors/:name', (req, res) => {
-  let responseText = 'Returns a JSON object of a movie-director by name';
-  res.send(responseText);
 });
 
+app.get('/movies/directors/:directorName', (req, res) => {
+	const { directorName } = req.params;
+	const director = movies.find(
+		(movie) => movie.Director.Name === directorName
+	).Director;
+
+	if (director) {
+		res.status(200).json(director);
+	} else {
+		res.status(404).send('Director not in database');
+	}
+});
+//CREATE favorite movie
+app.post('/users/:id/:movieTitle', (req, res) => {
+	const { id, movieTitle } = req.params;
+
+	let user = users.find((user) => user.id == id);
+
+	if (user) {
+		user.favoriteMovies.push(movieTitle);
+		res.status(200).send(
+			`${movieTitle} has been added to user ${id}'s array`
+		);
+	} else {
+		res.status(400).send('User not found');
+	}
+});
+
+//CREATE new user
 app.post('/users', (req, res) => {
   let newUser = req.body;
   
   if(!newUser.name) {
-    const message = 'Missing name in request body';
-    res.status(400).send(message);
+       newUser.id = uuid.v4();
+       users.push(newUser);
+       res.status(201).json(newUser);
   } else {
-    newUser.id = uuid.v4();
-    usersList.push(newUser);
-    res.status(201).send(newUser);
+       res.status(400).send('New user name')
   }
 });
+//UPDATE user
+app.put('/users/:id', (req, res) => {
+	const { id } = req.params;
+	const updatedUser = req.body;
 
-app.post('/users/:id/:title', (req, res) => {
-  let responseText = `Adds a movie to a user's list of "favorites", then gives an acknowledgement`;
-  res.send(responseText);
+	let user = users.find((user) => user.id == id);
+
+	if (user) {
+		user.name = updatedUser.name;
+		res.status(200).json(user);
+	} else {
+		res.status(400).send('User not found');
+	}
 });
-// Removes a movie from a user's list of favorites, then gives an acknowledgement
-app.delete('/users/:id/:title', (req, res) => {
-  let responseText = `Removes a movie from a user's list of favorites, then gives an acknowledgement`;
-  res.send(responseText);
+//DELETE user
+app.delete('/users/:id', (req, res) => {
+	const { id } = req.params;
+
+	let user = users.find((user) => user.id == id);
+
+	if (user) {
+		users = users.filter((user) => user.id != id);
+		res.status(200).send(`User ${id} has been removed from the database`);
+	} else {
+		res.status(400).send('User not found');
+	}
 });
+
+//DELETE favorite movie
+app.post('/users/:id/:movieTitle', (req, res) => {
+	const { id, movieTitle } = req.params;
+
+	let user = users.find((user) => user.id == id);
+
+	if (user) {
+		user.favoriteMovies.push(movieTitle);
+		res.status(200).send(
+			`${movieTitle} has been added to user ${id}'s array`
+		);
+	} else {
+		res.status(400).send('User not found');
+	}
+});
+
 
 
 
 app.listen(8080,() => console.log('listen on 8080'))
+
+
+
 
 
 
