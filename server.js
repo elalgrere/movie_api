@@ -7,7 +7,7 @@ app.use(bodyParser.json());
 
 let users = [
     {
-      name: 'Isabel',
+      name: 'Isabella',
       favmovie: ['The girl with the Pearl Earring']
     },
     {
@@ -109,7 +109,7 @@ app.get('/movies/directors/:directorName', (req, res) => {
 	const { directorName } = req.params;
 	const director = movies.find(
 		(movie) => movie.Director.Name === directorName
-	).Director;
+	);
 
 	if (director) {
 		res.status(200).json(director);
@@ -174,7 +174,7 @@ app.delete('/users/:id', (req, res) => {
 });
 
 //DELETE favorite movie
-app.post('/users/:id/:movieTitle', (req, res) => {
+app.delete('/users/:id/:movieTitle', (req, res) => {
 	const { id, movieTitle } = req.params;
 
 	let user = users.find((user) => user.id == id);
@@ -193,6 +193,10 @@ app.post('/users/:id/:movieTitle', (req, res) => {
 
 
 app.listen(8080,() => console.log('listen on 8080'))
+
+
+
+
 
 
 
